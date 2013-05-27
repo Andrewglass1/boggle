@@ -6,7 +6,7 @@ class Board < ActiveRecord::Base
   serialize :content
 
   after_create :make_board
-  after_save :seed_locations
+  after_create :seed_locations
 
   LETTERS = ('a'..'z').to_a 
 
