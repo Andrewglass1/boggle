@@ -1,0 +1,5 @@
+== Boggle
+
+Board.new(:size => n) creates a random boggle board of size n
+
+Board.new(:size => n).all_words should return
