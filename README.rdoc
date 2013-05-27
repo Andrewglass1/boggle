@@ -2,4 +2,4 @@
 
 Board.new(:size => n) creates a random boggle board of size n
 
-Board.new(:size => n).all_words should return
+Board.new(:size => n).all_words should return all possible valid words on the board
