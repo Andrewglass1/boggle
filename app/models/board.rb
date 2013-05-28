@@ -11,7 +11,11 @@ class Board < ActiveRecord::Base
   LETTERS = ('a'..'z').to_a 
 
   def all_words
-    locations.collect{|location|location.all_words}.flatten
+    locations.collect{|location|location.all_words}.flatten.sort_by{|w|-w.length}
+  end
+
+  def all_valid_words
+    all_words
   end
 
 private

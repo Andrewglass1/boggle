@@ -18,20 +18,23 @@ class Location < ActiveRecord::Base
     all_paths.collect{|path|path.word}
   end
 
+  def one_length_path
+    Path.new([self])
+  end
+
   def all_paths
-    #TODO logic here to actually find all paths rather than just these two samples
-    ##should probably abstract path finding logic into new class
-    [two_long, three_long]
+    while true
+      paths ||= []
+      new_paths ||= [one_length_path]
+      paths, new_paths = expand_paths(paths,new_paths)
+      break if new_paths == []
+    end
+    paths
   end
 
-  def two_long
-    locations = [self, possible_moves[1]]
-    Path.new(locations)
-  end
-
-  def three_long
-    locations = [self, possible_moves[1], possible_moves[1].possible_moves[1]]
-    Path.new(locations)
+  def expand_paths(previous_paths, new_paths)
+    newer_paths = new_paths.collect{|path|path.valid_next_paths}.flatten
+    [previous_paths + new_paths, newer_paths]
   end
 
 private
