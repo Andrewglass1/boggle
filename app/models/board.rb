@@ -1,5 +1,5 @@
 class Board < ActiveRecord::Base
-  attr_accessible :size, :board, :content
+  attr_accessible :size, :content
 
   has_many :locations, :dependent => :destroy
 
@@ -15,7 +15,8 @@ class Board < ActiveRecord::Base
   end
 
   def all_valid_words
-    all_words
+    word_checker = WordChecker.new
+    all_words.select{|word|word_checker.check(word)}
   end
 
 private

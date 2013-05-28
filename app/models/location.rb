@@ -7,11 +7,15 @@ class Location < ActiveRecord::Base
   after_create :set_letter
 
   def other_locations_on_board
-    board.locations - [self]
+    @other_locations ||= begin
+      board.locations - [self]
+    end
   end
 
   def possible_moves
-    [location_left, location_right, location_up, location_down].compact
+    [location_left, location_right, location_up, location_down,
+     location_top_left, location_top_right, location_bottom_left,
+     location_bottom_right].compact
   end
 
   def all_words
@@ -43,6 +47,8 @@ private
     update_attribute(:letter, board.content[row][slot])
   end
 
+  #locations
+
   def location_left
     other_locations_on_board.detect{|l| l.row == row && l.slot == slot-1}
   end
@@ -57,6 +63,22 @@ private
 
   def location_down
     other_locations_on_board.detect{|l| l.row == row+1 && l.slot == slot}
+  end
+
+  def location_top_left
+    other_locations_on_board.detect{|l| l.row == row+1 && l.slot == slot-1}
+  end
+
+  def location_top_right
+    other_locations_on_board.detect{|l| l.row == row+1 && l.slot == slot+1}
+  end
+
+  def location_bottom_left
+    other_locations_on_board.detect{|l| l.row == row-1 && l.slot == slot-1}
+  end
+
+  def location_bottom_right
+    other_locations_on_board.detect{|l| l.row == row-1 && l.slot == slot+1}
   end
 
 end
