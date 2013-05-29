@@ -6,10 +6,9 @@ class Location < ActiveRecord::Base
 
   after_create :set_letter
 
-  def other_locations_on_board
-    @other_locations_on_board ||= begin
-      board.locations - [self]
-    end
+
+  def set_other_locations_on_board(board)
+    @other_locations_on_board = board.locations - [self]
   end
 
   def possible_moves
@@ -50,35 +49,35 @@ private
   #locations
 
   def location_left
-    other_locations_on_board.detect{|l| l.row == row && l.slot == slot-1}
+    @other_locations_on_board.detect{|l| l.row == row && l.slot == slot-1}
   end
 
   def location_right
-    other_locations_on_board.detect{|l| l.row == row && l.slot == slot+1}
+    @other_locations_on_board.detect{|l| l.row == row && l.slot == slot+1}
   end
 
   def location_up
-    other_locations_on_board.detect{|l| l.row == row-1 && l.slot == slot}
+    @other_locations_on_board.detect{|l| l.row == row-1 && l.slot == slot}
   end
 
   def location_down
-    other_locations_on_board.detect{|l| l.row == row+1 && l.slot == slot}
+    @other_locations_on_board.detect{|l| l.row == row+1 && l.slot == slot}
   end
 
   def location_top_left
-    other_locations_on_board.detect{|l| l.row == row+1 && l.slot == slot-1}
+    @other_locations_on_board.detect{|l| l.row == row+1 && l.slot == slot-1}
   end
 
   def location_top_right
-    other_locations_on_board.detect{|l| l.row == row+1 && l.slot == slot+1}
+    @other_locations_on_board.detect{|l| l.row == row+1 && l.slot == slot+1}
   end
 
   def location_bottom_left
-    other_locations_on_board.detect{|l| l.row == row-1 && l.slot == slot-1}
+    @other_locations_on_board.detect{|l| l.row == row-1 && l.slot == slot-1}
   end
 
   def location_bottom_right
-    other_locations_on_board.detect{|l| l.row == row-1 && l.slot == slot+1}
+    @other_locations_on_board.detect{|l| l.row == row-1 && l.slot == slot+1}
   end
 
 end

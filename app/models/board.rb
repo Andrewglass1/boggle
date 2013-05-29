@@ -29,6 +29,7 @@ private
          @locations << self.locations.create(:row => r, :slot => s)
       end
     end
+    @locations.each{|location|location.set_other_locations_on_board(self)}
     @locations
   end
 
