@@ -7,7 +7,7 @@ class Location < ActiveRecord::Base
   after_create :set_letter
 
   def other_locations_on_board
-    @other_locations ||= begin
+    @other_locations_on_board ||= begin
       board.locations - [self]
     end
   end

@@ -10,8 +10,9 @@ class Board < ActiveRecord::Base
 
   LETTERS = ('a'..'z').to_a 
 
+
   def all_words
-    locations.collect{|location|location.all_words}.flatten.sort_by{|w|-w.length}
+    @locations.collect{|location|location.all_words}.flatten.sort_by{|w|-w.length}
   end
 
   def all_valid_words
@@ -22,11 +23,13 @@ class Board < ActiveRecord::Base
 private
 
   def seed_locations
+    @locations = []
     size.times do |r|
       size.times do |s|
-        self.locations.create(:row => r, :slot => s)
+         @locations << self.locations.create(:row => r, :slot => s)
       end
     end
+    @locations
   end
 
   def make_board
