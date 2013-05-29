@@ -9,12 +9,24 @@ class Location < ActiveRecord::Base
 
   def set_other_locations_on_board(board)
     @other_locations_on_board = board.locations - [self]
+    set_possible_locations
+  end
+
+  def set_possible_locations
+    @location_left = location_left
+    @location_right = location_right
+    @location_up = location_up
+    @location_down = location_down
+    @location_top_left = location_top_left
+    @location_top_right = location_top_right
+    @location_bottom_left = location_bottom_left
+    @location_bottom_right = location_bottom_right
   end
 
   def possible_moves
-    [location_left, location_right, location_up, location_down,
-     location_top_left, location_top_right, location_bottom_left,
-     location_bottom_right].compact
+    [@location_left, @location_right, @location_up, @location_down,
+     @location_top_left, @location_top_right, @location_bottom_left,
+     @location_bottom_right].compact
   end
 
   def all_words
